@@ -1118,7 +1118,7 @@ namespace HumaneSociety
 		}
 		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Species_Animal", Storage="_Species", ThisKey="SpeciesId", OtherKey="SpeciesId", IsForeignKey=true)]
-		public Species Species
+		public Species species
 		{
 			get
 			{

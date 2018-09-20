@@ -1,0 +1,56 @@
+﻿INSERT INTO Species(Name)
+SELECT 'Bradypus pygmaeus-Pygmy three-toed sloth'
+
+INSERT INTO Species (Name)
+Select 'Red-nosed Spider Monkey'
+
+INSERT INTO Species (Name)
+SELECT 'Da Bears'
+
+INSERT INTO Species (name)
+SELECT 'Saltwater crocodile'
+
+INSERT INTO Species (name)
+SELECT 'Gerbil'
+
+INSERT INTO DietPlans
+SELECT 'Sloth Plan', 'Leaves', 5
+
+INSERT INTO DietPlans
+SELECT 'Spider Monkey', 'wood', 1
+
+INSERT INTO DietPlans
+SELECT 'Da Bears PLan', 'Packers', 11
+
+INSERT INTO DietPlans
+SELECT 'Saltwater crocodile plan', 'meat', 10
+
+INSERT INTO DietPlans
+SELECT 'Gerbil plan', 'rodent pellets', .5
+
+UPDATE DietPlans
+SET Name = 'Spider Monkey Plan'
+WHERE Name = 'Spider Monkey'
+
+INSERT INTO Animals(Name, SpeciesId, Weight, Age, DietPlanId, Demeanor, KidFriendly, PetFriendly, Gender, AdoptionStatus, EmployeeId) 
+SELECT 'Brad', 1, 20, 30, 1, 'Relaxed', 'True', 'True', 'Male', 'Available', NULL
+
+INSERT INTO Animals(Name, SpeciesId, Weight, Age, DietPlanId, Demeanor, KidFriendly, PetFriendly, Gender, AdoptionStatus, EmployeeId) 
+SELECT 'Mikey', 2, 7, 25, 2, 'Spunky', 'True', 'True', 'Male', 'Available', NULL
+
+INSERT INTO Animals(Name, SpeciesId, Weight, Age, DietPlanId, Demeanor, KidFriendly, PetFriendly, Gender, AdoptionStatus, EmployeeId) 
+SELECT 'Mr. T', 3, 750, 30, 3, 'Gentle', 'True', 'False', 'Male', 'Available', NULL
+
+INSERT INTO Animals(Name, SpeciesId, Weight, Age, DietPlanId, Demeanor, KidFriendly, PetFriendly, Gender, AdoptionStatus, EmployeeId) 
+SELECT 'Paul', 4, 1200, 27, 4, 'Laid-Back', 'False', 'False', 'Male', 'Available', NULL
+
+INSERT INTO Animals(Name, SpeciesId, Weight, Age, DietPlanId, Demeanor, KidFriendly, PetFriendly, Gender, AdoptionStatus, EmployeeId) 
+SELECT 'Ryan', 5, 1, 28, 5, 'Skittish', 'False', 'False', 'Male', 'Unknown', NULL
+
+UPDATE Animals
+SET Gender = 'Unknown'
+WHERE Name = 'Ryan'
+
+UPDATE Animals
+SET AdoptionStatus = 'Available'
+WHERE Name = 'Ryan'

@@ -16,7 +16,7 @@ namespace HumaneSociety
         }
         internal static object GetPendingAdoptions()
         {
-            return null;
+            return IQueryable;
         }
         internal static void UpdateAdoption(bool v, Adoption adoption)
         {
