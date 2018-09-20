@@ -54,3 +54,37 @@ WHERE Name = 'Ryan'
 UPDATE Animals
 SET AdoptionStatus = 'Available'
 WHERE Name = 'Ryan'
+
+UPDATE Animals
+SET Name = 'Bradsford'
+WHERE Name = 'Brad'
+
+INSERT INTO ROOMS(RoomNumber,AnimalId)
+SELECT 101,NULL
+
+INSERT INTO ROOMS(RoomNumber,AnimalId)
+SELECT 102,NULL
+
+INSERT INTO ROOMS(RoomNumber,AnimalId)
+SELECT 103,NULL
+
+INSERT INTO ROOMS(RoomNumber,AnimalId)
+SELECT 104,NULL
+
+INSERT INTO ROOMS(RoomNumber,AnimalId)
+SELECT 105,NULL
+
+INSERT INTO ROOMS(RoomNumber,AnimalId)
+SELECT 106,NULL
+
+INSERT INTO ROOMS(RoomNumber,AnimalId)
+SELECT 107,NULL
+
+INSERT INTO ROOMS(RoomNumber,AnimalId)
+SELECT 108,NULL
+
+INSERT INTO ROOMS(RoomNumber,AnimalId)
+SELECT 109,NULL
+
+INSERT INTO ROOMS(RoomNumber,AnimalId)
+SELECT 110,NULL
