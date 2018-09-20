@@ -88,3 +88,22 @@ SELECT 109,NULL
 
 INSERT INTO ROOMS(RoomNumber,AnimalId)
 SELECT 110,NULL
+
+UPDATE Animals
+SET Gender = 'Male'
+WHERE Name = 'Ryan'
+
+INSERT INTO Shots
+SELECT 'Antibiotic'
+
+INSERT INTO Shots
+SELECT 'H1N1'
+
+INSERT INTO Shots
+SELECT 'Pneumonia'
+
+INSERT INTO Shots
+SELECT 'Rabies'
+
+INSERT INTO Shots
+SELECT 'HPV'
