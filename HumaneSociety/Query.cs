@@ -15,22 +15,27 @@ namespace HumaneSociety
             var room = db.Rooms.Where(a => a.AnimalId == animalId).Single();
             return room;
         }
-        internal static object GetPendingAdoptions()
+        internal static IQueryable<Adoption> GetPendingAdoptions()
         {
-            throw new NotImplementedException();
+            IQueryable<Adoption> adoptions = null;
+            return adoptions;
+
         }
         internal static void UpdateAdoption(bool v, Adoption adoption)
         {
             db.Adoptions.InsertOnSubmit(adoption);
             db.SubmitChanges();
         }
-        internal static object SearchForAnimalByMultipleTraits()
+        internal static IQueryable<Animal> SearchForAnimalByMultipleTraits()
         {
-            throw new NotImplementedException();
+            IQueryable<Animal> animal = null;
+            return animal;
         }
-        internal static object GetShots(Animal animal)
+        internal static IQueryable<AnimalShot> GetShots(Animal animal)
         {
-            throw new NotImplementedException();
+            IQueryable<AnimalShot> shots = null;
+            return shots;
+
         }
         internal static void UpdateShot(string v, Animal animal)
         {
@@ -42,7 +47,8 @@ namespace HumaneSociety
         }
         internal static Client GetClient(string userName, string password)
         {
-            throw new NotImplementedException();
+            Client client = null;
+            return client;
         }
         internal static void RemoveAnimal(Animal animal)
         {
@@ -51,7 +57,7 @@ namespace HumaneSociety
         }
         internal static Species GetSpecies()
         {
-            db.Species.
+            throw new NotImplementedException();
         }
         internal static DietPlan GetDietPlan()
         {
@@ -59,7 +65,8 @@ namespace HumaneSociety
         }
         internal static void AddAnimal(Animal animal)
         {
-            throw new NotImplementedException();
+            db.Animals.InsertOnSubmit(animal);
+            db.SubmitChanges();
         }
         internal static Employee EmployeeLogin(string userName, string password)
         {
@@ -77,10 +84,6 @@ namespace HumaneSociety
         {
             throw new NotImplementedException();
         }
-        internal static object RetrAddNewClientieveClients()
-        {
-            throw new NotImplementedException();
-        }
         internal static void AddNewClient(string firstName, string lastName, string username, string password, string email, string streetAddress, int zipCode, int state)
         {
             Client client = new Client();
@@ -92,7 +95,7 @@ namespace HumaneSociety
             Address address = new Address();
             address.AddressLine1 = streetAddress;
             address.Zipcode = zipCode;
-            address.USState = state;
+            address.USStateId = state;
             db.SubmitChanges();
 
         }
@@ -100,25 +103,29 @@ namespace HumaneSociety
         {
             throw new NotImplementedException();
         }
-        internal static object GetUserAdoptionStatus(Client client)
+        internal static IQueryable<Adoption> GetUserAdoptionStatus(Client client)
         {
-            throw new NotImplementedException();
+            IQueryable<Adoption> clients = null;
+            return clients;
         }
-        internal static object RetrieveClients()
+        internal static IQueryable<Client> RetrieveClients()
         {
-            throw new NotImplementedException();
+            IQueryable<Client> clients = null;
+            return clients;
         }
-        internal static object GetAnimalByID(int iD)
+        internal static Animal GetAnimalByID(int iD)
         {
-            throw new NotImplementedException();
+            Animal animal = null;
+            return animal;
         }
         internal static void Adopt(object animal, Client client)
         {
             throw new NotImplementedException();
         }
-        internal static object GetStates()
+        internal static IQueryable<USState> GetStates()
         {
-            throw new NotImplementedException();
+            IQueryable<USState> name = null;
+            return name;
         }
         internal static void UpdateClient(Client client)
         {
