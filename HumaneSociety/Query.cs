@@ -83,7 +83,18 @@ namespace HumaneSociety
         }
         internal static void AddNewClient(string firstName, string lastName, string username, string password, string email, string streetAddress, int zipCode, int state)
         {
-            throw new NotImplementedException();
+            Client client = new Client();
+            client.FirstName = firstName;
+            client.LastName = lastName;
+            client.UserName = username;
+            client.Password = password;
+            client.Email = email;
+            Address address = new Address();
+            address.AddressLine1 = streetAddress;
+            address.Zipcode = zipCode;
+            address.USState = state;
+            db.SubmitChanges();
+
         }
         internal static void RunEmployeeQueries(Employee employee, string v)
         {
@@ -111,7 +122,9 @@ namespace HumaneSociety
         }
         internal static void UpdateClient(Client client)
         {
-            throw new NotImplementedException();
+            var foundClient = db.Clients.Where(c => c.ClientId == client.ClientId).FirstOrDefault();
+            foundClient = client;
+            db.SubmitChanges();
         }
         internal static void UpdateUsername(Client client)
         {

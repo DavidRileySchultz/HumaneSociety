@@ -210,13 +210,13 @@ namespace HumaneSociety
             {
                 try
                 {
-                    var stateReturn = from territory in states where territory.name.ToLower() == state.ToLower() select territory.ID;
+                    var stateReturn = from territory in states where territory.name.ToLower() == state.ToLower() select territory.USStateId;
                     int stateNumber = stateReturn.ToList()[0];
                     return stateNumber;
                 }
                 catch
                 {
-                    var stateReturn = from territory in states where territory.abbrev == state.ToUpper() select territory.ID;
+                    var stateReturn = from territory in states where territory.abbrev == state.ToUpper() select territory.USStateId;
                     int stateNumber = stateReturn.ToList()[0];
                     return stateNumber;
                 }
