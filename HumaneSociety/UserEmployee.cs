@@ -68,7 +68,7 @@ namespace HumaneSociety
             {
                 foreach(Adoption adoption in adoptions)
                 {
-                    adoptionInfo.Add($"{counter}. {adoption.Client.FirstName} {adoption.Client.LastName}, {adoption.Animal.Name} {adoption.Animal.Species}");
+                    adoptionInfo.Add($"{counter}. {adoption.Client.FirstName} {adoption.Client.LastName}, {adoption.Animal.Name} {adoption.Animal.species}");
                     counter++;
                 }
                 UserInterface.DisplayUserOptions(adoptionInfo);
@@ -120,7 +120,7 @@ namespace HumaneSociety
             bool isFinished = false;
             Console.Clear();
             while(!isFinished){
-                List<string> options = new List<string>() { "Animal found:", animal.Name, animal.Species.Name, "Would you like to:", "1. Get Info", "2. Update Info", "3. Check shots", "4. Return" };
+                List<string> options = new List<string>() { "Animal found:", animal.Name, animal.species.Name, "Would you like to:", "1. Get Info", "2. Update Info", "3. Check shots", "4. Return" };
                 UserInterface.DisplayUserOptions(options);
                 int input = UserInterface.GetIntegerData();
                 if (input == 4)
@@ -243,7 +243,7 @@ namespace HumaneSociety
         {
             Console.Clear();
             Animal animal = new Animal();
-            animal.Species = Query.GetSpecies();
+            animal.species = Query.GetSpecies();
             animal.Name = UserInterface.GetStringData("name", "the animal's");
             animal.Age = UserInterface.GetIntegerData("age", "the animal's");
             animal.Demeanor = UserInterface.GetStringData("demeanor", "the animal's");

@@ -8,19 +8,21 @@ namespace HumaneSociety
 {
     public static class Query
     {
-        HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+        private static HumaneSocietyDataContext db = new HumaneSocietyDataContext();
 
         internal static Room GetRoom(int animalId)
         {
-            throw new NotImplementedException();
+            var room = db.Rooms.Where(a => a.AnimalId == animalId).Single();
+            return room;
         }
         internal static object GetPendingAdoptions()
         {
-            return IQueryable;
+            throw new NotImplementedException();
         }
         internal static void UpdateAdoption(bool v, Adoption adoption)
         {
-            throw new NotImplementedException();
+            db.Adoptions.InsertOnSubmit(adoption);
+            db.SubmitChanges();
         }
         internal static object SearchForAnimalByMultipleTraits()
         {
@@ -42,13 +44,14 @@ namespace HumaneSociety
         {
             throw new NotImplementedException();
         }
-        internal static void RemoveAnimal(object animal)
+        internal static void RemoveAnimal(Animal animal)
         {
-            throw new NotImplementedException();
+            db.Animals.DeleteOnSubmit(animal);
+            db.SubmitChanges();
         }
         internal static Species GetSpecies()
         {
-            throw new NotImplementedException();
+            db.Species.
         }
         internal static DietPlan GetDietPlan()
         {
@@ -106,29 +109,39 @@ namespace HumaneSociety
         {
             throw new NotImplementedException();
         }
-        internal static void updateClient(Client client)
+        internal static void UpdateClient(Client client)
         {
             throw new NotImplementedException();
         }
         internal static void UpdateUsername(Client client)
         {
-            throw new NotImplementedException();
+            var foundClient = db.Clients.Where(u => u.ClientId == client.ClientId).FirstOrDefault();
+            foundClient.UserName = client.UserName;
+            db.SubmitChanges();
         }
         internal static void UpdateEmail(Client client)
         {
-            throw new NotImplementedException();
+            var foundClient = db.Clients.Where(e => e.ClientId == client.ClientId).FirstOrDefault();
+            foundClient.Email = client.Email;
+            db.SubmitChanges();
         }
         internal static void UpdateAddress(Client client)
         {
-            throw new NotImplementedException();
+            var foundClient = db.Clients.Where(a => a.ClientId == client.ClientId).FirstOrDefault();
+            foundClient.Address = client.Address;
+            db.SubmitChanges();
         }
         internal static void UpdateFirstName(Client client)
         {
-            throw new NotImplementedException();
+            var foundClient = db.Clients.Where(f => f.ClientId == client.ClientId).FirstOrDefault();
+            foundClient.FirstName = client.FirstName;
+            db.SubmitChanges();
         }
         internal static void UpdateLastName(Client client)
         {
-            throw new NotImplementedException();
+            var foundClient = db.Clients.Where(l => l.ClientId == client.ClientId).FirstOrDefault();
+            foundClient.LastName = client.LastName;
+            db.SubmitChanges();
         }
     }
 }

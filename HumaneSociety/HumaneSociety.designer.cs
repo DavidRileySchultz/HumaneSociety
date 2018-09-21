@@ -63,9 +63,11 @@ namespace HumaneSociety
     partial void InsertUSState(USState instance);
     partial void UpdateUSState(USState instance);
     partial void DeleteUSState(USState instance);
-    #endregion
-		
-		public HumaneSocietyDataContext() : 
+
+     
+        #endregion
+
+        public HumaneSocietyDataContext() : 
 				base(global::HumaneSociety.Properties.Settings.Default.HumaneSocietyConnectionString3, mappingSource)
 		{
 			OnCreated();
@@ -2512,13 +2514,13 @@ namespace HumaneSociety
 		private void attach_Animals(Animal entity)
 		{
 			this.SendPropertyChanging();
-			entity.Species = this;
+			entity.species = this;
 		}
 		
 		private void detach_Animals(Animal entity)
 		{
 			this.SendPropertyChanging();
-			entity.Species = null;
+			entity.species = null;
 		}
 	}
 	
