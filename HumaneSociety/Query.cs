@@ -26,10 +26,58 @@ namespace HumaneSociety
             db.Adoptions.InsertOnSubmit(adoption);
             db.SubmitChanges();
         }
-        internal static IQueryable<Animal> SearchForAnimalByMultipleTraits()
+        internal static IQueryable<Animal> SearchForAnimalByMultipleTraits(Dictionary<int, string> searchParameters)
         {
-            IQueryable<Animal> animal = null;
-            return animal;
+            var animals = from data in db.Animals select data;
+
+            searchParameters = UserInterface.GetAnimalCriteria();
+            if (searchParameters.ContainsKey(1))
+            {
+                animals = (from animal in animals where animal.species.Name == searchParameters[1] select animal);
+            }
+            if (searchParameters.ContainsKey(2))
+            {
+                animals = (from animal in animals where animal.Name == searchParameters[2] select animal);
+            }
+            if (searchParameters.ContainsKey(3))
+            {
+                animals = (from animal in animals where animal.Age == int.Parse(searchParameters[3]) select animal);
+            }
+            if (searchParameters.ContainsKey(4))
+            {
+                animals = (from animal in animals where animal.Demeanor == searchParameters[4] select animal);
+            }
+            if (searchParameters.ContainsKey(5))
+            {
+                bool parameter = GetBoolParamater(searchParameters[5]);
+                animals = (from animal in animals where animal.KidFriendly == parameter select animal);
+            }
+            if (searchParameters.ContainsKey(6))
+            {
+                bool parameter = GetBoolParamater(searchParameters[6]);
+                animals = (from animal in animals where animal.PetFriendly == parameter select animal);
+            }
+            if (searchParameters.ContainsKey(7))
+            {
+                animals = (from animal in animals where animal.Weight == int.Parse(searchParameters[7]) select animal);
+            }
+            if (searchParameters.ContainsKey(8))
+            {
+                animals = (from animal in animals where animal.AnimalId == int.Parse(searchParameters[8]) select animal);
+            }
+            return animals;
+        }
+
+        private static bool GetBoolParamater(string input)
+        {
+            if (input.ToLower() == "true")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         internal static IQueryable<AnimalShot> GetShots(Animal animal)
         {
@@ -47,8 +95,9 @@ namespace HumaneSociety
         }
         internal static Client GetClient(string userName, string password)
         {
-            Client client = null;
-            return client;
+            var currentClient = db.Clients.Distinct().Single(c => c.UserName == userName && c.Password == password);
+            return currentClient;
+
         }
         internal static void RemoveAnimal(Animal animal)
         {
@@ -86,18 +135,23 @@ namespace HumaneSociety
         }
         internal static void AddNewClient(string firstName, string lastName, string username, string password, string email, string streetAddress, int zipCode, int state)
         {
-            Client client = new Client();
-            client.FirstName = firstName;
-            client.LastName = lastName;
-            client.UserName = username;
-            client.Password = password;
-            client.Email = email;
+            Client newClient = new Client();
+            {
+                newClient.FirstName = firstName;
+                newClient.LastName = lastName;
+                newClient.UserName = username;
+                newClient.Password = password;
+                newClient.Email = email;
+            };
             Address address = new Address();
-            address.AddressLine1 = streetAddress;
-            address.Zipcode = zipCode;
-            address.USStateId = state;
+            {
+                address.AddressLine1 = streetAddress;
+                address.Zipcode = zipCode;
+                address.USStateId = state;
+            };
+            db.Clients.InsertOnSubmit(newClient);
+            db.Addresses.InsertOnSubmit(address);
             db.SubmitChanges();
-
         }
         internal static void RunEmployeeQueries(Employee employee, string v)
         {
@@ -110,8 +164,8 @@ namespace HumaneSociety
         }
         internal static IQueryable<Client> RetrieveClients()
         {
-            IQueryable<Client> clients = null;
-            return clients;
+            var currentClients = db.Clients.Select(Client => Client);
+            return currentClients;
         }
         internal static Animal GetAnimalByID(int iD)
         {
@@ -124,8 +178,8 @@ namespace HumaneSociety
         }
         internal static IQueryable<USState> GetStates()
         {
-            IQueryable<USState> name = null;
-            return name;
+            var currentStates = db.USStates.Select(States => States);
+            return currentStates;
         }
         internal static void UpdateClient(Client client)
         {
