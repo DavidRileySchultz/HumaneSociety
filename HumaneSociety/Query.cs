@@ -143,14 +143,14 @@ namespace HumaneSociety
                 newClient.Password = password;
                 newClient.Email = email;
             };
-            Address address = new Address();
+            newClient.Address = new Address();
             {
-                address.AddressLine1 = streetAddress;
-                address.Zipcode = zipCode;
-                address.USStateId = state;
+                newClient.Address.AddressLine1 = streetAddress;
+                newClient.Address.Zipcode = zipCode;
+                newClient.Address.USStateId = state;
             };
             db.Clients.InsertOnSubmit(newClient);
-            db.Addresses.InsertOnSubmit(address);
+            db.Addresses.InsertOnSubmit(newClient.Address);
             db.SubmitChanges();
         }
         internal static void RunEmployeeQueries(Employee employee, string v)
