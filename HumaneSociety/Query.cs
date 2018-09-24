@@ -79,18 +79,88 @@ namespace HumaneSociety
                 return false;
             }
         }
-        internal static AnimalShot GetShots(string shotName)
+        internal static IEnumerable<AnimalShot> GetShots(Animal animal)
         {
-            return (db.Shots.Single(s => s.Name == shotName.ToLower().Trim()) != null);
+            var shots = db.AnimalShots.Where(a => a.AnimalId == a.AnimalId);
+            return shots;
 
         }
         internal static void UpdateShot(string v, Animal animal)
         {
             throw new NotImplementedException();
         }
+        internal static void CreateNewSpecies(string speciesName, HumaneSocietyDataContext db)
+        {
+            Species newSpecies = new Species();
+            {
+                newSpecies.Name = speciesName;
+            }
+            db.Species.InsertOnSubmit(newSpecies);
+            db.SubmitChanges();
+        }
         internal static void EnterUpdate(Animal animal, Dictionary<int, string> updates)
         {
-            throw new NotImplementedException();
+            var updateAnimal = db.Animals.Single(a => a.AnimalId == animal.AnimalId);
+            if (updates.ContainsKey(1))
+            {
+                var availableSpecies = db.Species.Single(s => updates[1].ToLower() == s.Name.ToLower());
+                if(availableSpecies == null)
+                {
+                    CreateNewSpecies(updates[1].ToLower(), db);
+                    EnterUpdate(animal, updates);
+                    return;
+                }
+                else
+                {
+                    updateAnimal.SpeciesId = availableSpecies.SpeciesId;
+                }
+            }
+            if (updates.ContainsKey(2))
+            {
+                updateAnimal.Name = updates[2];
+            }
+            if (updates.ContainsKey(3))
+            {
+                updateAnimal.Age = int.Parse(updates[3]);
+            }
+            if (updates.ContainsKey(4))
+            {
+                updateAnimal.Demeanor = updates[4];
+            }
+            if (updates.ContainsKey(5))
+            {
+                if(updates[5].ToLower() == "true")
+                {
+                    updateAnimal.KidFriendly = true;
+                }
+                else if(updates[5].ToLower() == "false")
+                {
+                    updateAnimal.KidFriendly = false;
+                }
+            }
+            if (updates.ContainsKey(6))
+            {
+                if(updates[6].ToLower() == "true")
+                {
+                    updateAnimal.PetFriendly = true;
+                }
+                else if(updates[6].ToLower() == "false")
+                {
+                    updateAnimal.PetFriendly = false;
+                }
+            }
+            if (updates.ContainsKey(7))
+            {
+                updateAnimal.Weight = int.Parse(updates[7]);
+            }
+            if (updates.ContainsKey(8))
+            {
+                UpdateRoom();
+            }
+            if (updates.ContainsKey(9))
+            {
+
+            }
         }
         internal static Client GetClient(string userName, string password)
         {
@@ -105,7 +175,9 @@ namespace HumaneSociety
         }
         internal static Species GetSpecies()
         {
-            var currentSpecies = Specy.First(s => s.SpeciesId = );
+            string speciesName = UserInterface.GetStringData("Animal's", "species");
+            return speciesName;
+            
         }
         internal static DietPlan GetDietPlan()
         {
@@ -118,23 +190,26 @@ namespace HumaneSociety
         }
         internal static Employee EmployeeLogin(string userName, string password)
         {
-            throw new NotImplementedException();
+            var employee = db.Employees.Single(i => userName == i.UserName && password == i.Password);
+            return employee;
         }
         internal static Employee RetrieveEmployeeUser(string email, int employeeNumber)
         {
-            var currentEmployee = db.Employees.Select(e => e);
-
+            Employee newEmployee = new Employee();
+            {
+                EmployeeNumber = employeeNumber;
+                Email = email;
+            };
+            db.Employees.InsertOnSubmit(newEmployee);
         }
         internal static void AddUsernameAndPassword(Employee employee)
         {
-            Employee newEmployee = new Employee();
-            newEmployee.UserName = ;
-            newEmployee.Password = ;
 
+            throw new NotImplementedException();
         }
         internal static bool CheckEmployeeUserNameExist(string username)
         {
-            throw new NotImplementedException();
+            return db.Employees.Single(u => username == u.UserName) != null;
         }
         internal static void AddNewClient(string firstName, string lastName, string username, string password, string email, string streetAddress, int zipCode, int state)
         {
