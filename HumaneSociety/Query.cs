@@ -29,8 +29,6 @@ namespace HumaneSociety
         internal static IQueryable<Animal> SearchForAnimalByMultipleTraits(Dictionary<int, string> searchParameters)
         {
             var animals = from data in db.Animals select data;
-
-            searchParameters = UserInterface.GetAnimalCriteria();
             if (searchParameters.ContainsKey(1))
             {
                 animals = (from animal in animals where animal.species.Name == searchParameters[1] select animal);
@@ -155,7 +153,7 @@ namespace HumaneSociety
             }
             if (updates.ContainsKey(8))
             {
-                UpdateRoom();
+                UpdateRoom(updateAnimal, updates[8]);
             }
             db.SubmitChanges();
             return;
@@ -225,14 +223,11 @@ namespace HumaneSociety
         }
         internal static void AddUsernameAndPassword(Employee employee)
         {
-
-            Employee newEmployee = new Employee();
-            {
-                newEmployee.UserName = username;
-                newEmployee.Password = password;
-            }
-
-
+            var foundEmployee = db.Employees.Where(e => e.EmployeeId == e.EmployeeId).First();
+            foundEmployee.UserName = foundEmployee.UserName;
+            db.Employees.Where(e => e.Password == e.Password);
+            foundEmployee.Password = employee.Password;
+            db.SubmitChanges();
         }
         internal static bool CheckEmployeeUserNameExist(string username)
         {
