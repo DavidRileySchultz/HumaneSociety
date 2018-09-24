@@ -9,6 +9,7 @@ namespace HumaneSociety
     public static class Query
     {
         private static HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+        public delegate void EmployeeVoidFunciton(Employee employee);
 
         internal static Room GetRoom(int animalId)
         {
@@ -253,9 +254,40 @@ namespace HumaneSociety
             db.Addresses.InsertOnSubmit(newClient.Address);
             db.SubmitChanges();
         }
-        internal static void RunEmployeeQueries(Employee employee, string v)
+        internal static void RunEmployeeQueries(Employee employee, string input)
         {
-            throw new NotImplementedException();
+            EmployeeVoidFunciton doTheQueryStuff;
+            switch (input)
+            {
+                case "create":
+                    doTheQueryStuff = AddEmployee;
+                    break;
+                case "read":
+                    doTheQueryStuff = ReadEmployee;
+                    break;
+                case "update":
+                    doTheQueryStuff = UpdateEmployee;
+                    break;
+                case "delete":
+                    doTheQueryStuff = DeleteEmployee;
+                    break;
+                default:
+                    UserInterface.DisplayUserOptions("Input not recognized please try again or type exit");
+                    RunEmployeeQueries(employee, input);
+                    break;
+            }
+            doTheQueryStuff(employee);
+        }
+        
+        internal static void AddEmployee(Employee employee)
+        {
+            db.Employees.InsertOnSubmit(employee);
+            db.SubmitChanges();
+        }
+        internal static void DeleteEmployee(Employee employee)
+        {
+            db.Employees.DeleteOnSubmit(employee);
+            db.SubmitChanges();
         }
         internal static IQueryable<Adoption> GetUserAdoptionStatus(Client client)
         {
