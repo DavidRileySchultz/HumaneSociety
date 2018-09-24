@@ -79,10 +79,9 @@ namespace HumaneSociety
                 return false;
             }
         }
-        internal static IQueryable<AnimalShot> GetShots(Animal animal)
+        internal static AnimalShot GetShots(string shotName)
         {
-            IQueryable<AnimalShot> shots = null;
-            return shots;
+            return (db.Shots.Single(s => s.Name == shotName.ToLower().Trim()) != null);
 
         }
         internal static void UpdateShot(string v, Animal animal)
@@ -106,7 +105,7 @@ namespace HumaneSociety
         }
         internal static Species GetSpecies()
         {
-            throw new NotImplementedException();
+            var currentSpecies = Specy.First(s => s.SpeciesId = );
         }
         internal static DietPlan GetDietPlan()
         {
@@ -123,11 +122,15 @@ namespace HumaneSociety
         }
         internal static Employee RetrieveEmployeeUser(string email, int employeeNumber)
         {
-            throw new NotImplementedException();
+            var currentEmployee = db.Employees.Select(e => e);
+
         }
         internal static void AddUsernameAndPassword(Employee employee)
         {
-            throw new NotImplementedException();
+            Employee newEmployee = new Employee();
+            newEmployee.UserName = ;
+            newEmployee.Password = ;
+
         }
         internal static bool CheckEmployeeUserNameExist(string username)
         {
@@ -169,8 +172,8 @@ namespace HumaneSociety
         }
         internal static Animal GetAnimalByID(int iD)
         {
-            Animal animal = null;
-            return animal;
+            var desiredAnimal = db.Animals.Single(a => a.AnimalId == iD);
+            return desiredAnimal;
         }
         internal static void Adopt(object animal, Client client)
         {
