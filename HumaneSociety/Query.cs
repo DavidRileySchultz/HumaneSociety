@@ -87,7 +87,7 @@ namespace HumaneSociety
         }
         internal static void UpdateShot(string v, Animal animal)
         {
-            throw new NotImplementedException();
+            
         }
         internal static void CreateNewSpecies(string speciesName)
         {
@@ -157,16 +157,19 @@ namespace HumaneSociety
             {
                 UpdateRoom();
             }
-            if (updates.ContainsKey(9))
-            {
-
-            }
             db.SubmitChanges();
             return;
         }
-        internal static void UpdateRoom()
+        internal static void UpdateRoom(Animal updateAnimal, string inputNumber)
         {
-
+            int roomNumber = int.Parse(inputNumber);
+            Room updateRoom = db.Rooms.Single(r => r.AnimalId == updateAnimal.AnimalId);
+            if(updateRoom != null)
+            {
+                updateRoom.RoomNumber = roomNumber;
+                db.SubmitChanges();
+            }
+           
         } 
         internal static Client GetClient(string userName, string password)
         {
@@ -212,15 +215,24 @@ namespace HumaneSociety
         {
             Employee newEmployee = new Employee();
             {
-                Email = email;
-                EmployeeNumber = employeeNumber;                
+                newEmployee.Email = email;
+                newEmployee.EmployeeNumber = employeeNumber;                
             };
             db.Employees.InsertOnSubmit(newEmployee);
+            db.SubmitChanges();
+            return newEmployee;
+            
         }
         internal static void AddUsernameAndPassword(Employee employee)
         {
 
-            throw new NotImplementedException();
+            Employee newEmployee = new Employee();
+            {
+                newEmployee.UserName = username;
+                newEmployee.Password = password;
+            }
+
+
         }
         internal static bool CheckEmployeeUserNameExist(string username)
         {
