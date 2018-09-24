@@ -89,7 +89,7 @@ namespace HumaneSociety
         {
             throw new NotImplementedException();
         }
-        internal static void CreateNewSpecies(string speciesName, HumaneSocietyDataContext db)
+        internal static void CreateNewSpecies(string speciesName)
         {
             Species newSpecies = new Species();
             {
@@ -106,7 +106,7 @@ namespace HumaneSociety
                 var availableSpecies = db.Species.Single(s => updates[1].ToLower() == s.Name.ToLower());
                 if(availableSpecies == null)
                 {
-                    CreateNewSpecies(updates[1].ToLower(), db);
+                    CreateNewSpecies(updates[1].ToLower());
                     EnterUpdate(animal, updates);
                     return;
                 }
@@ -182,15 +182,15 @@ namespace HumaneSociety
         internal static Species GetSpecies()
         {
             string speciesName = UserInterface.GetStringData("Animal's", "species");
-            if(!IsInSpeciesTable(db, speciesName))
+            if(!IsInSpeciesTable(speciesName))
             {
-                CreateNewSpecies(speciesName, db);
+                CreateNewSpecies(speciesName);
             }
             var currentSpecies = db.Species.Distinct().Single(s => s.Name.ToLower() == speciesName.ToLower());
             return currentSpecies;
             
         }
-        private static bool IsInSpeciesTable(HumaneSocietyDataContext db, string compareStrings)
+        private static bool IsInSpeciesTable(string compareStrings)
         {
             return db.Species.Distinct().Single(s => s.Name.ToLower() == compareStrings.ToLower()) != null;
         }
