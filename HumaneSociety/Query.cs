@@ -161,7 +161,13 @@ namespace HumaneSociety
             {
 
             }
+            db.SubmitChanges();
+            return;
         }
+        internal static void UpdateRoom()
+        {
+
+        } 
         internal static Client GetClient(string userName, string password)
         {
             var currentClient = db.Clients.Distinct().Single(c => c.UserName == userName && c.Password == password);
@@ -176,8 +182,17 @@ namespace HumaneSociety
         internal static Species GetSpecies()
         {
             string speciesName = UserInterface.GetStringData("Animal's", "species");
-            return speciesName;
+            if(!IsInSpeciesTable(db, speciesName))
+            {
+                CreateNewSpecies(speciesName, db);
+            }
+            var currentSpecies = db.Species.Distinct().Single(s => s.Name.ToLower() == speciesName.ToLower());
+            return currentSpecies;
             
+        }
+        private static bool IsInSpeciesTable(HumaneSocietyDataContext db, string compareStrings)
+        {
+            return db.Species.Distinct().Single(s => s.Name.ToLower() == compareStrings.ToLower()) != null;
         }
         internal static DietPlan GetDietPlan()
         {
@@ -190,15 +205,15 @@ namespace HumaneSociety
         }
         internal static Employee EmployeeLogin(string userName, string password)
         {
-            var employee = db.Employees.Single(i => userName == i.UserName && password == i.Password);
+            var employee = db.Employees.Single(e => userName == e.UserName && password == e.Password);
             return employee;
         }
         internal static Employee RetrieveEmployeeUser(string email, int employeeNumber)
         {
             Employee newEmployee = new Employee();
             {
-                EmployeeNumber = employeeNumber;
                 Email = email;
+                EmployeeNumber = employeeNumber;                
             };
             db.Employees.InsertOnSubmit(newEmployee);
         }
