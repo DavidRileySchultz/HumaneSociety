@@ -224,9 +224,10 @@ namespace HumaneSociety
         }
         internal static void AddUsernameAndPassword(Employee employee)
         {
-            var foundEmployee = db.Employees.Where(e => e.EmployeeId == e.EmployeeId).First();
+            var foundEmployee = db.Employees.Where(e => e.EmployeeId == employee.EmployeeId).First();
             foundEmployee.UserName = foundEmployee.UserName;
-            db.Employees.Where(e => e.Password == e.Password);
+            db.SubmitChanges();
+            db.Employees.Where(e => e.Password == employee.Password);
             foundEmployee.Password = employee.Password;
             db.SubmitChanges();
         }
@@ -272,9 +273,7 @@ namespace HumaneSociety
                     doTheQueryStuff = DeleteEmployee;
                     break;
                 default:
-                    UserInterface.DisplayUserOptions("Input not recognized please try again or type exit");
-                    RunEmployeeQueries(employee, input);
-                    break;
+                    throw new ApplicationException("An unexpected error occured. Please contact support.");
             }
             doTheQueryStuff(employee);
         }
@@ -284,10 +283,36 @@ namespace HumaneSociety
             db.Employees.InsertOnSubmit(employee);
             db.SubmitChanges();
         }
+        internal static void ReadEmployee(Employee employee)
+        {
+            var employeeToRead = db.Employees.SingleOrDefault(Employee => employee.EmployeeId == Employee.EmployeeId);
+
+            Console.WriteLine("Firstname: " + employeeToRead.FirstName);
+            Console.WriteLine("Lastname: " + employeeToRead.LastName);
+            Console.WriteLine("Username: " + employeeToRead.UserName);
+            Console.WriteLine("Password: " + employeeToRead.Password);
+            Console.WriteLine("Email: " + employeeToRead.Email);
+        }
+        internal static void UpdateEmployee(Employee employee)
+        {
+            var currentEmployee = db.Employees.Distinct().Single(e => e.EmployeeId == e.EmployeeId);
+            currentEmployee.FirstName = employee.FirstName;
+            currentEmployee.LastName = employee.LastName;
+            currentEmployee.Email = employee.Email;
+            currentEmployee.UserName = employee.UserName;
+            currentEmployee.Password = employee.Password;
+            currentEmployee.EmployeeNumber = employee.EmployeeNumber;
+            db.SubmitChanges();
+        }
         internal static void DeleteEmployee(Employee employee)
         {
-            db.Employees.DeleteOnSubmit(employee);
-            db.SubmitChanges();
+            var employeeToDelete = db.Employees.SingleOrDefault(user => user.EmployeeId == employee.EmployeeId);
+
+            if (employeeToDelete != null)
+            {
+                db.Employees.DeleteOnSubmit(employeeToDelete);
+                db.SubmitChanges();
+            }
         }
         internal static IQueryable<Adoption> GetUserAdoptionStatus(Client client)
         {
