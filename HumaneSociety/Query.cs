@@ -383,6 +383,19 @@ namespace HumaneSociety
             db.Adoptions.InsertOnSubmit(adoption);
             db.SubmitChanges();
         }
+        internal static void UpdateAdoptionStatus(bool adopted, Adoption adoption)
+        {
+            var isAdopted = db.Adoptions.Where(a => a.AdoptionId == adoption.AdoptionId).Single();
+            if (adopted)
+            {
+                isAdopted.ApprovalStatus = "adopted";
+            }
+            else
+            {
+                isAdopted.ApprovalStatus = "not adopted";
+            }
+            db.SubmitChanges();
+        }
         internal static IQueryable<USState> GetStates()
         {
             var currentStates = db.USStates.Select(States => States);
