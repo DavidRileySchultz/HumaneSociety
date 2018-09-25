@@ -11,9 +11,9 @@ namespace HumaneSociety
         private static HumaneSocietyDataContext db = new HumaneSocietyDataContext();
         public delegate void EmployeeVoidFunciton(Employee employee);
 
-        internal static Room GetRoom(int animalId)
+        internal static Room GetRoom(int animalID)
         {
-            var room = db.Rooms.Where(a => a.AnimalId == animalId).Single();
+            var room = db.Rooms.Where(r => r.AnimalId == animalID).Single();
             return room;
         }
         internal static IQueryable<Adoption> GetPendingAdoptions()
@@ -98,6 +98,27 @@ namespace HumaneSociety
             };
             db.AnimalShots.InsertOnSubmit(currentShot);
             db.SubmitChanges();
+        }
+        internal static void GiveShots(Animal animal, List<AnimalShot> shotsNotUpToDate)
+        {
+            var shots = db.Shots;
+            DateTime dateTime = DateTime.Now;
+            if(shotsNotUpToDate.Count < 1)
+            {
+                var shotsList = shots.ToList();
+                for(int i = 0; i < 5; i++)
+                {
+                    AnimalShot animalShot = new AnimalShot();
+                    animalShot.ShotId = shotsList[i].ShotId;
+                    animalShot.AnimalId = animal.AnimalId;
+                    animalShot.DateReceived = dateTime.Date;
+                    db.AnimalShots.InsertOnSubmit(animalShot);
+                }
+            }
+            else
+            {
+                
+            }
         }
         internal static void CreateNewSpecies(string speciesName)
         {
@@ -194,8 +215,8 @@ namespace HumaneSociety
         }
         internal static Species GetSpecies()
         {
-            string speciesName = UserInterface.GetStringData("Animal's", "species");
-            if(!IsInSpeciesTable(speciesName))
+            string speciesName = UserInterface.GetStringData("species", "Animal's");
+            if(!IsSpeciesInTable(speciesName))
             {
                 CreateNewSpecies(speciesName);
             }
@@ -203,13 +224,25 @@ namespace HumaneSociety
             return currentSpecies;
             
         }
-        private static bool IsInSpeciesTable(string compareStrings)
+        private static bool IsSpeciesInTable(string compareStrings)
         {
-            return db.Species.Distinct().Single(s => s.Name.ToLower() == compareStrings.ToLower()) != null;
+            if(db.Species.Where(s => s.Name.ToLower() == compareStrings) !=null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         internal static DietPlan GetDietPlan()
         {
-            throw new NotImplementedException();
+            DietPlan dietPlan = new DietPlan();
+            dietPlan.DietPlanId = UserInterface.GetIntegerData();
+            dietPlan.Name = UserInterface.GetStringData("species", "the animal's");
+            dietPlan.FoodType = UserInterface.GetStringData("food type", "the animal's");
+            dietPlan.FoodAmountInCups = UserInterface.GetIntegerData();
+            return dietPlan;
         }
         internal static void AddAnimal(Animal animal)
         {
@@ -242,9 +275,15 @@ namespace HumaneSociety
             foundEmployee.Password = employee.Password;
             db.SubmitChanges();
         }
-        internal static bool CheckEmployeeUserNameExist(string username)
+        internal static bool CheckEmployeeUserNameExist(string userName)
         {
-            return db.Employees.Single(u => username == u.UserName) != null;
+            var exists = db.Employees.Where(s => s.UserName == userName).SingleOrDefault();
+            if (exists != default(Employee))
+            {
+                return true;
+            }
+            else
+                return false;
         }
         internal static void AddNewClient(string firstName, string lastName, string username, string password, string email, string streetAddress, int zipCode, int state)
         {
@@ -325,10 +364,10 @@ namespace HumaneSociety
                 db.SubmitChanges();
             }
         }
-        internal static IQueryable<Adoption> GetUserAdoptionStatus(Client client)
+        internal static List<Adoption> GetUserAdoptionStatus(Client client)
         {
-            IQueryable<Adoption> clients = null;
-            return clients;
+            var adoptions = db.Adoptions.Where(c => c.ClientId == client.ClientId);
+            return adoptions.ToList();
         }
         internal static IQueryable<Client> RetrieveClients()
         {

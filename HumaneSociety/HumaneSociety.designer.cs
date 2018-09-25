@@ -63,11 +63,9 @@ namespace HumaneSociety
     partial void InsertUSState(USState instance);
     partial void UpdateUSState(USState instance);
     partial void DeleteUSState(USState instance);
-
-     
-        #endregion
-
-        public HumaneSocietyDataContext() : 
+    #endregion
+		
+		public HumaneSocietyDataContext() : 
 				base(global::HumaneSociety.Properties.Settings.Default.HumaneSocietyConnectionString3, mappingSource)
 		{
 			OnCreated();
@@ -227,9 +225,9 @@ namespace HumaneSociety
 			this._Clients = new EntitySet<Client>(new Action<Client>(this.attach_Clients), new Action<Client>(this.detach_Clients));
 			this._USState = default(EntityRef<USState>);
 			OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AddressId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AddressId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int AddressId
 		{
 			get
@@ -1120,7 +1118,7 @@ namespace HumaneSociety
 		}
 		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Species_Animal", Storage="_Species", ThisKey="SpeciesId", OtherKey="SpeciesId", IsForeignKey=true)]
-		public Species species
+		public Species Species
 		{
 			get
 			{
@@ -2514,13 +2512,13 @@ namespace HumaneSociety
 		private void attach_Animals(Animal entity)
 		{
 			this.SendPropertyChanging();
-			entity.species = this;
+			entity.Species = this;
 		}
 		
 		private void detach_Animals(Animal entity)
 		{
 			this.SendPropertyChanging();
-			entity.species = null;
+			entity.Species = null;
 		}
 	}
 	
