@@ -84,9 +84,20 @@ namespace HumaneSociety
             return shots;
 
         }
-        internal static void UpdateShot(string v, Animal animal)
+        internal static void UpdateShot(string shot, Animal animal)
         {
-            
+            AnimalShot currentShot = new AnimalShot
+            {
+                Animal = animal,
+                AnimalId = animal.AnimalId,
+                DateReceived = DateTime.Now
+            };
+            currentShot.Shot = new Shot
+            {
+                ShotId = db.Shots.Where(s => s.Name == shot).Select(s => s.ShotId).Single()
+            };
+            db.AnimalShots.InsertOnSubmit(currentShot);
+            db.SubmitChanges();
         }
         internal static void CreateNewSpecies(string speciesName)
         {
